@@ -6,9 +6,10 @@ name = "pypi"
 [packages]
 pillow = "*"
 fastapi = "*"
-uvicorn = "*"
 install = "*"
 python-multipart = "*"
+filetype = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 

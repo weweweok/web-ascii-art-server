@@ -1,5 +1,6 @@
 from typing import Annotated
 from creategif import CreateAsciiArt
+import filetype
 
 from fastapi import FastAPI, File, Request, status
 
@@ -28,6 +29,8 @@ async def handler(request: Request, exc: RequestValidationError):
 
 @app.post("/files/")
 async def create_files(files: Annotated[bytes, File()]):
+    kind = filetype.guess(files)
+    print(kind.extension)
     output = CreateAsciiArt().create_ascii_art_from_binary(files)
 
     return Response(content=output, media_type="image/gif")

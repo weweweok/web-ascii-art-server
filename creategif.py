@@ -5,6 +5,8 @@ import shutil
 import sys
 import base64
 
+import filetype
+
 import io
 
 from pathlib import Path
@@ -96,12 +98,23 @@ class CreateAsciiArt:
         jpg_bytes = Image.open(io.BytesIO(file))
         result_bytes = io.BytesIO()
         jpg_bytes.save(result_bytes, format="png")
-        return result_bytes.getvalue()
+        return Image.open(io.BytesIO(result_bytes.getvalue()))
 
-    def create_ascii_art_from_binary(self, files: bytes):
+    def __is_jpg(self, file: bytes):
+        kind = filetype.guess(file)
+        print(kind.extension)
+        return "jpg" == kind.extension
+
+    def create_ascii_art_from_binary(self, file: bytes):
         i = 1
         new_files = []
-        image = Image.open(io.BytesIO(files))
+
+        image = (
+            self.__jpg_to_png(file)
+            if self.__is_jpg(file)
+            else Image.open(io.BytesIO(file))
+        )
+
         self.files_length = image.n_frames
         for frame_index in range(image.n_frames):
             print("Input image: {0}/{1}".format(i, self.files_length))

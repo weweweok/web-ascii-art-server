@@ -5,7 +5,6 @@ import shutil
 import sys
 import base64
 
-import filetype
 
 import io
 
@@ -33,9 +32,11 @@ class CreateAsciiArt:
         height = original_height * self.__ROWS
 
         character, line = "", []
-        font = ImageFont.truetype(self.__FONT_PATH, self.__FONT_SIZE, encoding="utf-8")
+        font = ImageFont.truetype(
+            self.__FONT_PATH, self.__FONT_SIZE, encoding="utf-8")
         input_pix = input_image.load()
-        output_image = Image.new("RGBA", (width, height), self.__FONT_BACKGROUND_COLOR)
+        output_image = Image.new(
+            "RGBA", (width, height), self.__FONT_BACKGROUND_COLOR)
         draw = ImageDraw.Draw(output_image)
 
         font_width = int(font.getlength("#"))
@@ -101,9 +102,7 @@ class CreateAsciiArt:
         return Image.open(io.BytesIO(result_bytes.getvalue()))
 
     def __is_jpg(self, file: bytes):
-        kind = filetype.guess(file)
-        print(kind.extension)
-        return "jpg" == kind.extension
+        return file[:2] == b'\xFF\xD8'
 
     def create_ascii_art_from_binary(self, file: bytes):
         i = 1

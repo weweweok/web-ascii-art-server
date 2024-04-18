@@ -1,5 +1,4 @@
 pillow
 fastapi
-filetype
 uvicorn[standard]
 python-multipart

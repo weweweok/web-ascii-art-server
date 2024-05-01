@@ -142,24 +142,3 @@ def create_gif(file: bytes):
     return ascii_art.create_ascii_art_from_binary(file)
 
 
-import os
-import glob
-
-# ファイルのディレクトリ
-directory = './kiritan.gif'
-
-# gifファイルを探す
-file_paths = glob.glob(directory)
-
-# 最初に見つかったgifファイルをロードする
-if file_paths:
-    file_path = file_paths[0]
-    with open(file_path, 'rb') as file:
-        bytes_content = file.read()
-        gif = create_gif(bytes_content)
-    image = Image.open(io.BytesIO(gif))
-
-    # 画像をgifとして保存
-    image.save('output.gif')
-else:
-    print("No gif files found in the directory.")

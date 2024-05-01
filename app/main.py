@@ -1,11 +1,11 @@
-from typing import Annotated
-from creategif import CreateAsciiArt
-
 from fastapi import FastAPI, File, Request, status
+from typing import Annotated
 
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
+from .creategif import CreateAsciiArt
+
 
 app = FastAPI()
 

@@ -32,11 +32,9 @@ class CreateAsciiArt:
         height = original_height * self.__ROWS
 
         character, line = "", []
-        font = ImageFont.truetype(
-            self.__FONT_PATH, self.__FONT_SIZE, encoding="utf-8")
-        input_pix = input_image.load()
-        output_image = Image.new(
-            "RGBA", (width, height), self.__FONT_BACKGROUND_COLOR)
+        font = ImageFont.truetype(self.__FONT_PATH, self.__FONT_SIZE, encoding="utf-8")
+        input_pix = input_image.convert("L").load()
+        output_image = Image.new("RGBA", (width, height), self.__FONT_BACKGROUND_COLOR)
         draw = ImageDraw.Draw(output_image)
 
         font_width = int(font.getlength("#"))
@@ -76,7 +74,6 @@ class CreateAsciiArt:
                     font=font,
                     fill=self.__FONT_COLOR,
                 )
-
         return output_image
 
     def __jpg_to_png(self, file: bytes):

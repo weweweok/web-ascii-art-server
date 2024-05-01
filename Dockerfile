@@ -15,6 +15,7 @@ FROM python:3-alpine AS runner
 WORKDIR /app
 
 COPY --from=builder /app/venv venv
+COPY ./font/ /app/font/
 COPY ./app/creategif.py creategif.py
 COPY ./app/main.py main.py
 

@@ -1,11 +1,26 @@
-FROM python:3.11
+FROM python:3-alpine AS builder
 
-WORKDIR /code
+WORKDIR /app
 
-COPY ./requirements.txt /code/requirements.txt
+RUN python3 -m venv venv
+ENV VIRTUAL_ENV=/app/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY ./app /code/app
+# Stage 2
+FROM python:3-alpine AS runner
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+WORKDIR /app
+
+COPY --from=builder /app/venv venv
+COPY ./app/creategif.py creategif.py
+COPY ./app/main.py main.py
+
+ENV VIRTUAL_ENV=/app/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+EXPOSE 8000
+
+CMD [ "uvicorn", "--host", "0.0.0.0", "main:app" ]

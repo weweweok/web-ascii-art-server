@@ -9,7 +9,7 @@ from creategif import CreateAsciiArt
 
 app = FastAPI()
 
-origins = ["http://localhost:8000/","https://web-ascii-arter.deno.dev/"]
+origins = ["http://localhost:8000/","localhost:8000","https://web-ascii-arter.deno.dev/"]
 
 app.add_middleware(
     CORSMiddleware,
